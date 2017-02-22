@@ -5,11 +5,11 @@
 #include <grid/Agent.h>
 
 struct RandomAgent : public bwi_gridworld::Agent {
-  
-  char nextAction(const bwi_gridworld::Pos &currentPos);
-  void eventFound(const bwi_gridworld::Pos &currentPos);
-  bwi_gridworld::Agent *clone(int id);
-  
+
+    char nextAction(const bwi_gridworld::Pos &currentPos);
+    void eventFound(const bwi_gridworld::Pos &currentPos);
+    bwi_gridworld::Agent *clone(int id);
+
 };
 
 

@@ -17,7 +17,7 @@ char RandomAgent::nextAction(const bwi_gridworld::Pos& currentPos) {
         case 1 : return 's'; break;
         case 2 : return 'e'; break;
         case 3 : return 'w'; break;
-      }
+    }
 }
 
 void RandomAgent::eventFound(const bwi_gridworld::Pos &currentPos) {}
