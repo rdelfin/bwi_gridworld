@@ -2,7 +2,7 @@
 #define RandomAgent_h__guard
 
 
-#include "grid/Agent.h"
+#include <grid/Agent.h>
 
 struct RandomAgent : public bwi_gridworld::Agent {
   
