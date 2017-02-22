@@ -48,6 +48,22 @@ Notes on implementation:
 * You can run experiments on multiple agents, one after another if you create multiple grids
   and run their `runExperiment()` method. However, remember to leave only one experiment
   running when you turn in the assignment
+
+### Compiling and Running
+
+Navigate to the project's root repository (where the CMakeLists.txt file). If there is no 
+build folder, in the terminal run (without the $ sign):
+```
+$ mkdir build/
+```
+
+Then compile the code and run it. You can run:
+```
+$ cd build/
+$ cmake ..
+$ make
+$ ./gridworld
+```
   
 ### Miscellaneous
 
