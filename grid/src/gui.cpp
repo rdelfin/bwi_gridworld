@@ -9,7 +9,7 @@
 #include "grid/grid.h"
 
 namespace bwi_gridworld {
-    gui::gui(Grid* g) :g(g) {
+    Gui::Gui(Grid* g) : g(g), xOffset(250), yOffset(250), sqrW(50), sqrH(50) {
         ALLEGRO_DISPLAY *display = NULL;
 
         if(!al_init()) {
@@ -30,20 +30,20 @@ namespace bwi_gridworld {
         star_img = al_load_bitmap("assets/star-128.png");
     }
 
-    void gui::update() {
+    void Gui::update() {
         al_clear_to_color(al_map_rgb(100,149,237));
 
         for(int x = 0; x < g->getWidth(); x++) {
             for(int y = 0; y < g->getHeight(); y++) {
-                al_draw_filled_rectangle(x*50 + 25, y*50 + 25, (x+1)*50 + 25, (y+1)*50 + 25, al_map_rgb(255, 255, 255));
-                al_draw_rectangle(x*50 + 25, y*50 + 25, (x+1)*50 + 25, (y+1)*50 + 25, al_map_rgb(0, 0, 0), 2);
+                al_draw_filled_rectangle(x*sqrW + xOffset, y*sqrW + yOffset, (x+1)*sqrW + xOffset, (y+1)*sqrH + yOffset, al_map_rgb(255, 255, 255));
+                al_draw_rectangle(x*sqrW + xOffset, y*sqrH + yOffset, (x+1)*sqrW + xOffset, (y+1)*sqrH + yOffset, al_map_rgb(0, 0, 0), 2);
             }
         }
 
         g->getEventMutex().lock();
         const std::vector<Pos>& event_locations = g->getEventLocations();
         for(auto it = event_locations.begin(); it != event_locations.end(); ++it) {
-            al_draw_bitmap(star_img, it->x*50 + 25, it->y*50 + 25, NULL);
+            al_draw_bitmap(star_img, it->x*sqrW + xOffset, it->y*sqrH + yOffset, NULL);
         }
         g->getEventMutex().unlock();
 
@@ -51,7 +51,7 @@ namespace bwi_gridworld {
         g->getAgentMutex().lock();
         const std::vector<Pos>& agent_positions = g->getAgentLocations();
         for(auto it = agent_positions.begin(); it != agent_positions.end(); ++it) {
-            al_draw_bitmap(robot_img, it->x*50 + 30, it->y*50 + 30, NULL);
+            al_draw_bitmap(robot_img, it->x*sqrW + xOffset + 5, it->y*sqrH + yOffset + 5, NULL);
         }
         g->getAgentMutex().unlock();
 
@@ -59,7 +59,7 @@ namespace bwi_gridworld {
         al_rest(0.025);
     }
 
-    gui::~gui() {
+    Gui::~Gui() {
         al_destroy_display(display);
     }
 }

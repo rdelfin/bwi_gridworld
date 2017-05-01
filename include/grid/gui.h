@@ -8,20 +8,21 @@
 #include "grid.h"
 
 namespace bwi_gridworld {
-    class gui {
+    class Gui {
     public:
-        gui(Grid* g);
+        Gui(Grid* g);
 
         void update();
 
-        ~gui();
+        ~Gui();
 
     private:
         Grid* g;
 
         ALLEGRO_DISPLAY* display;
-
         ALLEGRO_BITMAP *robot_img, *star_img;
+
+        int xOffset, yOffset, sqrW, sqrH;
     };
 }
 
