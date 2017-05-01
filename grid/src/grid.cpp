@@ -173,8 +173,8 @@ namespace bwi_gridworld {
 
         for(int i = 0; i < NUM_TESTS; i++) {
             for(step_count = 0; step_count < MAX_STEPS; ++step_count) {
-                next();
                 draw_board();
+                next();
             }
 
             fractions[i] = eventsFound / ((double) eventsCreated);
