@@ -3,6 +3,9 @@
 #include "Agent.h"
 #include <cstddef>
 
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
+
 namespace bwi_gridworld {
 
     struct Pos{
@@ -24,6 +27,10 @@ namespace bwi_gridworld {
         std::vector<Pos> agent_positions;
         std::vector<bwi_gridworld::Agent*> agents;
 
+        ALLEGRO_DISPLAY* display;
+
+        ALLEGRO_BITMAP *robot_img, *star_img;
+
         void reset();
         void event_found();
         bool alreadyOccupied(int, int);
@@ -33,7 +40,7 @@ namespace bwi_gridworld {
 
 
     public:
-        Grid(Agent *prototype);
+        Grid(Agent *prototype, ALLEGRO_DISPLAY* display);
         const static int width = 10;
         const static int height = 10;
         bool running;
@@ -45,6 +52,8 @@ namespace bwi_gridworld {
         void next();
         int step(int, char);
         const int* getPos(int);
+
+        void draw_board();
 
         ~Grid();
     };

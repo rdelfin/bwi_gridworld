@@ -10,6 +10,8 @@
 #include <time.h>
 #include <cstdlib>
 
+#include <allegro5/allegro_primitives.h>
+
 #define NUM_TESTS 2000
 
 #define MAX_STEPS 500
@@ -31,7 +33,11 @@ using namespace std;
 
 namespace bwi_gridworld {
 
-    Grid::Grid(Agent *prototype) : event_locations(), agents(), eventsCreated(0), eventsFound(0), step_count(0){
+    Grid::Grid(Agent *prototype, ALLEGRO_DISPLAY* display)
+            : event_locations(), agents(), eventsCreated(0), eventsFound(0), step_count(0), display(display) {
+
+        robot_img = al_load_bitmap("assets/r2d2-128.png");
+        star_img = al_load_bitmap("assets/star-128.png");
 
         agents.push_back(prototype->clone(0));
         agents.push_back(prototype->clone(1));
@@ -168,6 +174,7 @@ namespace bwi_gridworld {
         for(int i = 0; i < NUM_TESTS; i++) {
             for(step_count = 0; step_count < MAX_STEPS; ++step_count) {
                 next();
+                draw_board();
             }
 
             fractions[i] = eventsFound / ((double) eventsCreated);
@@ -203,6 +210,28 @@ namespace bwi_gridworld {
         agent_positions.push_back(Pos(width-1, 0,0));
         agent_positions.push_back(Pos(width-1, height-1,0));
         agent_positions.push_back(Pos(0, height-1,0));
+    }
+
+    void Grid::draw_board() {
+        al_clear_to_color(al_map_rgb(100,149,237));
+
+        for(int x = 0; x < getWidth(); x++) {
+            for(int y = 0; y < getHeight(); y++) {
+                al_draw_filled_rectangle(x*50 + 25, y*50 + 25, (x+1)*50 + 25, (y+1)*50 + 25, al_map_rgb(255, 255, 255));
+                al_draw_rectangle(x*50 + 25, y*50 + 25, (x+1)*50 + 25, (y+1)*50 + 25, al_map_rgb(0, 0, 0), 2);
+            }
+        }
+
+        for(auto it = event_locations.begin(); it != event_locations.end(); ++it) {
+            al_draw_bitmap(star_img, it->x*50 + 25, it->y*50 + 25, NULL);
+        }
+
+        for(auto it = agent_positions.begin(); it != agent_positions.end(); ++it) {
+            al_draw_bitmap(robot_img, it->x*50 + 30, it->y*50 + 30, NULL);
+        }
+
+        al_flip_display();
+        al_rest(1);
     }
 
     Grid::~Grid() {
