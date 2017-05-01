@@ -231,6 +231,8 @@ namespace bwi_gridworld {
     //methods to return information to Agents
     const int Grid::getWidth(){return width;}
     const int Grid::getHeight(){return height;}
+    int Grid::getEventsFound() { return eventsFound; }
+    int Grid::getStepCount() { return step_count; }
     const std::vector<Pos>& Grid::getEventLocations() { return event_locations; }
     const std::vector<Pos>& Grid::getAgentLocations() { return agent_positions; }
     std::mutex& Grid::getEventMutex() { return event_mutex; }

@@ -4,7 +4,11 @@
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+
 #include <iostream>
+
 #include "grid/gui.h"
 #include "grid/grid.h"
 
@@ -19,6 +23,8 @@ namespace bwi_gridworld {
 
         al_init_primitives_addon();
         al_init_image_addon();
+        al_init_font_addon();
+        al_init_ttf_addon();
 
         display = al_create_display(1000, 1000);
         if(!display) {

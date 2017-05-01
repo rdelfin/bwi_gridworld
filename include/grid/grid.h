@@ -54,6 +54,9 @@ namespace bwi_gridworld {
         int step(int, char);
         const int* getPos(int);
 
+        int getEventsFound();
+        int getStepCount();
+
         const std::vector<Pos>& getEventLocations();
         const std::vector<Pos>& getAgentLocations();
 
