@@ -13,7 +13,7 @@ namespace bwi_gridworld {
         ALLEGRO_DISPLAY *display = NULL;
 
         if(!al_init()) {
-            fprintf(stderr, "failed to initialize allegro!\n");
+            std::cerr << "failed to initialize allegro!" << std::endl;
             exit(-1);
         }
 
@@ -22,7 +22,7 @@ namespace bwi_gridworld {
 
         display = al_create_display(1000, 1000);
         if(!display) {
-            fprintf(stderr, "failed to create display!\n");
+            std::cerr << "failed to create display!" << std::endl;
             exit(-1);
         }
 
