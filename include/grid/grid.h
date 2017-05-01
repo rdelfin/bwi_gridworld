@@ -2,9 +2,13 @@
 #include <time.h>
 #include "Agent.h"
 #include <cstddef>
+#include <mutex>
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+
+#ifndef __BWI_GRIDWORLD_GRID__
+#define __BWI_GRIDWORLD_GRID__
 
 namespace bwi_gridworld {
 
@@ -27,20 +31,17 @@ namespace bwi_gridworld {
         std::vector<Pos> agent_positions;
         std::vector<bwi_gridworld::Agent*> agents;
 
-        ALLEGRO_DISPLAY* display;
-
-        ALLEGRO_BITMAP *robot_img, *star_img;
-
         void reset();
         void event_found();
         bool alreadyOccupied(int, int);
         void checkIfEventFound(int);
         int printResults();
 
-
+        std::mutex event_mutex;
+        std::mutex agent_mutex;
 
     public:
-        Grid(Agent *prototype, ALLEGRO_DISPLAY* display);
+        Grid(Agent *prototype);
         const static int width = 10;
         const static int height = 10;
         bool running;
@@ -53,10 +54,16 @@ namespace bwi_gridworld {
         int step(int, char);
         const int* getPos(int);
 
-        void draw_board();
+        const std::vector<Pos>& getEventLocations();
+        const std::vector<Pos>& getAgentLocations();
+
+        std::mutex& getEventMutex();
+        std::mutex& getAgentMutex();
 
         ~Grid();
     };
 
 }
+
+#endif
 

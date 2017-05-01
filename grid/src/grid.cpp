@@ -33,16 +33,16 @@ using namespace std;
 
 namespace bwi_gridworld {
 
-    Grid::Grid(Agent *prototype, ALLEGRO_DISPLAY* display)
-            : event_locations(), agents(), eventsCreated(0), eventsFound(0), step_count(0), display(display) {
-
-        robot_img = al_load_bitmap("assets/r2d2-128.png");
-        star_img = al_load_bitmap("assets/star-128.png");
+    Grid::Grid(Agent *prototype)
+            : event_locations(), agents(), eventsCreated(0), eventsFound(0), step_count(0), running(true) {
+        agent_mutex.lock();
 
         agents.push_back(prototype->clone(0));
         agents.push_back(prototype->clone(1));
         agents.push_back(prototype->clone(2));
         agents.push_back(prototype->clone(3));
+
+        agent_mutex.unlock();
 
         delete prototype;
 
@@ -74,6 +74,7 @@ namespace bwi_gridworld {
         return false;
     }
     int Grid::step(int agent_id, char direction) {
+        agent_mutex.lock();
         if(validMove(agent_id, direction) ){
 
             if(rand() <= (1 - agent_id * 0.2) * RAND_MAX) {
@@ -90,6 +91,8 @@ namespace bwi_gridworld {
         }
         else
             std::cout << "Invalid movement! " << std::endl;
+
+        agent_mutex.unlock();
     }
 
     //probablistically generates events and places them on the grid
@@ -102,10 +105,13 @@ namespace bwi_gridworld {
                 random_x = std::rand() % width;
                 random_y = std::rand() % height;
             } while(alreadyOccupied(random_x, random_y));
+            event_mutex.lock();
 
             event_locations.push_back(Pos(random_x, random_y, step_count));
             eventsCreated++;
             //std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
+
+            event_mutex.unlock();
         }
 
         //clear old events
@@ -135,6 +141,7 @@ namespace bwi_gridworld {
     }
 
     void Grid::checkIfEventFound(int agent_id){
+        event_mutex.lock();
 
         vector<Pos>::iterator evt = event_locations.begin();
         while(evt != event_locations.end()) {
@@ -149,6 +156,8 @@ namespace bwi_gridworld {
             else
                 ++evt;
         }
+
+        event_mutex.unlock();
     }
 
     //Polls the agents for their next move
@@ -160,6 +169,7 @@ namespace bwi_gridworld {
         for(int i = 0; i < agents.size(); i++) {
             char agent_action = agents.at(i)->nextAction(agent_positions[i]);
             if(validMove(i, agent_action)) {
+                al_rest(1);
                 step(i, agent_action);
             }
 
@@ -173,7 +183,6 @@ namespace bwi_gridworld {
 
         for(int i = 0; i < NUM_TESTS; i++) {
             for(step_count = 0; step_count < MAX_STEPS; ++step_count) {
-                draw_board();
                 next();
             }
 
@@ -194,7 +203,7 @@ namespace bwi_gridworld {
 
         //std::cout << "The experiments are over. Your agents found " << eventsFound << " events, out of " << eventsCreated << "." << std::endl;
         std::cout << "Your agents found " << (sampleMean * 100) << "% +- " << (100 * confidence) << " of the threats" << std::endl;
-
+        running = false;
     }
 
     void Grid::reset() {
@@ -212,28 +221,6 @@ namespace bwi_gridworld {
         agent_positions.push_back(Pos(0, height-1,0));
     }
 
-    void Grid::draw_board() {
-        al_clear_to_color(al_map_rgb(100,149,237));
-
-        for(int x = 0; x < getWidth(); x++) {
-            for(int y = 0; y < getHeight(); y++) {
-                al_draw_filled_rectangle(x*50 + 25, y*50 + 25, (x+1)*50 + 25, (y+1)*50 + 25, al_map_rgb(255, 255, 255));
-                al_draw_rectangle(x*50 + 25, y*50 + 25, (x+1)*50 + 25, (y+1)*50 + 25, al_map_rgb(0, 0, 0), 2);
-            }
-        }
-
-        for(auto it = event_locations.begin(); it != event_locations.end(); ++it) {
-            al_draw_bitmap(star_img, it->x*50 + 25, it->y*50 + 25, NULL);
-        }
-
-        for(auto it = agent_positions.begin(); it != agent_positions.end(); ++it) {
-            al_draw_bitmap(robot_img, it->x*50 + 30, it->y*50 + 30, NULL);
-        }
-
-        al_flip_display();
-        al_rest(1);
-    }
-
     Grid::~Grid() {
         vector<Agent*>::iterator it = agents.begin();
         for(; it!= agents.end(); ++it)
@@ -244,6 +231,10 @@ namespace bwi_gridworld {
     //methods to return information to Agents
     const int Grid::getWidth(){return width;}
     const int Grid::getHeight(){return height;}
+    const std::vector<Pos>& Grid::getEventLocations() { return event_locations; }
+    const std::vector<Pos>& Grid::getAgentLocations() { return agent_positions; }
+    std::mutex& Grid::getEventMutex() { return event_mutex; }
+    std::mutex& Grid::getAgentMutex() { return agent_mutex; }
 
 
     Pos::Pos(int x, int y, int time) : x(x), y(y), time(time){};

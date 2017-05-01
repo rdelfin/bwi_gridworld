@@ -12,34 +12,31 @@
 */
 
 #include <agent/RandomAgent.h>
+#include <grid/gui.h>
+#include <thread>
 
 using namespace bwi_gridworld;
 
+void simulation(Grid* grid);
+
 int main(int argc, char *argv[]){
-    ALLEGRO_DISPLAY *display = NULL;
-
-    if(!al_init()) {
-        fprintf(stderr, "failed to initialize allegro!\n");
-        return -1;
-    }
-
-    al_init_primitives_addon();
-    al_init_image_addon();
-
-    display = al_create_display(1000, 1000);
-    if(!display) {
-        fprintf(stderr, "failed to create display!\n");
-        return -1;
-    }
 
     std::srand(time(0)); //seeds random number generator with the current time
 
-    Grid grid(new RandomAgent(), display);
-    grid.runExperiments();
+    Grid grid(new RandomAgent());
+    gui gui(&grid);
 
+    std::thread t(simulation, &grid);
 
+    while(grid.running) {
+        gui.update();
+    }
 
-    al_destroy_display(display);
+    t.join();
 
     return 0;
+}
+
+void simulation(Grid* grid) {
+    grid->runExperiments();
 }
