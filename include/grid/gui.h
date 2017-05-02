@@ -23,6 +23,7 @@ namespace bwi_gridworld {
 
         ALLEGRO_DISPLAY* display;
         ALLEGRO_BITMAP *robot_img, *star_img;
+        ALLEGRO_BITMAP *bar_img, *divider_img;
         ALLEGRO_FONT* main_font;
 
         int xOffset, yOffset, sqrW, sqrH;
