@@ -169,7 +169,6 @@ namespace bwi_gridworld {
         for(int i = 0; i < agents.size(); i++) {
             char agent_action = agents.at(i)->nextAction(agent_positions[i]);
             if(validMove(i, agent_action)) {
-                al_rest(1);
                 step(i, agent_action);
             }
 
@@ -184,6 +183,7 @@ namespace bwi_gridworld {
         for(int i = 0; i < NUM_TESTS; i++) {
             for(step_count = 0; step_count < MAX_STEPS; ++step_count) {
                 next();
+                al_rest(1);
             }
 
             fractions[i] = eventsFound / ((double) eventsCreated);

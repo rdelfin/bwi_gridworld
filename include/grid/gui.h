@@ -7,6 +7,8 @@
 
 #include "grid.h"
 
+#include <allegro5/allegro_font.h>
+
 namespace bwi_gridworld {
     class Gui {
     public:
@@ -21,6 +23,7 @@ namespace bwi_gridworld {
 
         ALLEGRO_DISPLAY* display;
         ALLEGRO_BITMAP *robot_img, *star_img;
+        ALLEGRO_FONT* main_font;
 
         int xOffset, yOffset, sqrW, sqrH;
     };

@@ -34,6 +34,7 @@ namespace bwi_gridworld {
 
         robot_img = al_load_bitmap("assets/r2d2-128.png");
         star_img = al_load_bitmap("assets/star-128.png");
+        main_font = al_load_ttf_font("assets/forced_square.ttf", 20, 0);
     }
 
     void Gui::update() {
@@ -61,11 +62,17 @@ namespace bwi_gridworld {
         }
         g->getAgentMutex().unlock();
 
+        al_draw_textf(main_font, al_map_rgb(255, 255, 255), 500, 800, 0, "Step #%d", g->getStepCount());
+        al_draw_textf(main_font, al_map_rgb(255, 255, 255), 500, 850, 0, "%d events captured", g->getEventsFound());
+
         al_flip_display();
         al_rest(0.025);
     }
 
     Gui::~Gui() {
+        al_destroy_bitmap(robot_img);
+        al_destroy_bitmap(star_img);
+        al_destroy_font(main_font);
         al_destroy_display(display);
     }
 }
