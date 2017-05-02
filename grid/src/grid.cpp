@@ -20,13 +20,8 @@
 #define EVENT_DURATION 25
 
 /*
-TODO: Add verbose mode?
-Add in automated testing
-
 GRID class
-Creates a 2D grit, initializes agents in the map. At some point an event is placed on the map and the time is recorded from when the event is placed and an agent find's it.
-
-
+Creates a 2D grid, initializes agents in the map. At some point an event is placed on the map and the time is recorded from when the event is placed and an agent find's it.
 */
 
 using namespace std;
@@ -183,7 +178,7 @@ namespace bwi_gridworld {
         for(int i = 0; i < NUM_TESTS; i++) {
             for(step_count = 0; step_count < MAX_STEPS; ++step_count) {
                 next();
-                al_rest(1);
+                al_rest(0.1);
             }
 
             fractions[i] = eventsFound / ((double) eventsCreated);
