@@ -19,6 +19,9 @@ namespace bwi_gridworld {
         ~Gui();
 
     private:
+        void logic();
+        void draw();
+
         Grid* g;
 
         ALLEGRO_DISPLAY* display;

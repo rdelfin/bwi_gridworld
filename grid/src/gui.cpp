@@ -40,6 +40,22 @@ namespace bwi_gridworld {
     }
 
     void Gui::update() {
+        logic();
+        draw();
+    }
+
+    void Gui::logic() {
+        ALLEGRO_MOUSE_STATE state;
+        al_get_mouse_state(&state);
+
+        if(state.buttons & 1) {
+
+        }
+    }
+
+    void Gui::draw() {
+        // Calcu
+
         al_clear_to_color(al_map_rgb(100,149,237));
 
         for(int x = 0; x < g->getWidth(); x++) {
