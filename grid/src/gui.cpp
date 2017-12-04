@@ -25,6 +25,8 @@ namespace bwi_gridworld {
         al_init_image_addon();
         al_init_font_addon();
         al_init_ttf_addon();
+        al_install_mouse();
+        al_install_keyboard();
 
         display = al_create_display(1000, 1000);
         if(!display) {
@@ -54,8 +56,6 @@ namespace bwi_gridworld {
     }
 
     void Gui::draw() {
-        // Calcu
-
         al_clear_to_color(al_map_rgb(100,149,237));
 
         for(int x = 0; x < g->getWidth(); x++) {
