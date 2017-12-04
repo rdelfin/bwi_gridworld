@@ -28,8 +28,8 @@ using namespace std;
 
 namespace bwi_gridworld {
 
-    Grid::Grid(Agent *prototype)
-            : event_locations(), agents(), eventsCreated(0), eventsFound(0), step_count(0), running(true) {
+    Grid::Grid(Agent *prototype, bool gui)
+            : event_locations(), agents(), eventsCreated(0), eventsFound(0), step_count(0), running(true), gui(gui) {
         agent_mutex.lock();
 
         agents.push_back(prototype->clone(0));
@@ -178,7 +178,8 @@ namespace bwi_gridworld {
         for(int i = 0; i < NUM_TESTS; i++) {
             for(step_count = 0; step_count < MAX_STEPS; ++step_count) {
                 next();
-                al_rest(0.1);
+                if(gui)
+                    al_rest(0.1);
             }
 
             fractions[i] = eventsFound / ((double) eventsCreated);

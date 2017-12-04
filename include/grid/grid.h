@@ -40,8 +40,10 @@ namespace bwi_gridworld {
         std::mutex event_mutex;
         std::mutex agent_mutex;
 
+        bool gui;
+
     public:
-        Grid(Agent *prototype);
+        Grid(Agent *prototype, bool gui);
         const static int width = 10;
         const static int height = 10;
         bool running;

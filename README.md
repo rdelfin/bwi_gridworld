@@ -5,13 +5,29 @@
 In this lab, you will work with a "Grid World" simulator. The problem is stated as follows.
 Suppose you have an, n*m grid. Every few milliseconds, a "time step" goes by and some event
 happens. You're given 4 agents to control. Let's call them bots. Every time step, you can
-give each bot of 4 commands: north ('n'), south ('s'), west ('w') and east ('e'). Think of
-this as a game of chess, where every turn certain pieces move according to some rules. At
-the same time, every timestep there will be events that will pop up at completely random
+give each bot one of 4 commands: north ('n'), south ('s'), west ('w') and east ('e'). Think
+of this as a game of chess, where every turn certain pieces move according to some rules.
+At the same time, every timestep there will be events that will pop up at completely random
 locations on the grid with a probability p=0.05. Your goal is to step on as many events as
 possible with the 4 bots.
 
 ## Instructions
+
+### Dependencies
+
+To run this code, you need:
+
+* GCC/Clang
+* CMake
+* Allegro 5
+
+This last one is used to display a screen where you can visualize the simulation of the
+robots moving around the world. To install it, follow these installation instructions:
+
+* Ubuntu: https://wiki.allegro.cc/index.php?title=Install_Allegro_from_Ubuntu_PPAs
+* Mac OSX: https://wiki.allegro.cc/index.php?title=Installing_with_homebrew
+* Windows (Visual Studio 2015): https://wiki.allegro.cc/index.php?title=Windows,_Visual_Studio_2015_and_Nuget_Allegro_5
+* Windows (Code::Blocks): https://wiki.allegro.cc/index.php?title=Windows,_Code%3A%3ABlocks_and_Allegro_5
 
 ### Creating an Agent
 
@@ -64,6 +80,12 @@ $ cmake ..
 $ make
 $ ./gridworld
 ```
+
+If you don't want to see the GUI (faster results), replace the last step with:
+
+```
+$ ./gridworld --no-gui
+```
   
 ### Miscellaneous
 
@@ -73,6 +95,6 @@ $ ./gridworld
   
 ## Submission Guidelines
 
-To submit the assignment, rename the folder bwi_gridword_${UTEID}, where ${UTEID&} is your
+To submit the assignment, rename the folder bwi_gridword_${UTEID}, where ${UTEID} is your
 UT EID. Put the entire solution in either a `.zip` or (preferably) a `.tar.gz` archive, and
 submit it through canvas.

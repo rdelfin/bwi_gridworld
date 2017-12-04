@@ -20,18 +20,21 @@ using namespace bwi_gridworld;
 void simulation(Grid* grid);
 void gui_thread(Grid* grid);
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
+    bool gui = !(argc > 1 && std::string(argv[1]) == std::string("--no-gui"));
 
     std::srand(time(0)); //seeds random number generator with the current time
 
-    Grid grid(new RandomAgent());
+    Grid grid(new RandomAgent(), gui);
 
     std::thread simThread(simulation, &grid);
-    std::thread guiThread(gui_thread, &grid);
 
+    if(gui) {
+        std::thread guiThread(gui_thread, &grid);
+        guiThread.join();
+    }
 
     simThread.join();
-    guiThread.join();
 
     return 0;
 }
