@@ -36,8 +36,8 @@ namespace bwi_gridworld {
 
         robot_img = al_load_bitmap("assets/r2d2-128.png");
         star_img = al_load_bitmap("assets/star-128.png");
-        bar_img = al_load_bitmap("assets/bar.png");
-        divider_img = al_load_bitmap("assets/divider.png");
+        //bar_img = al_load_bitmap("assets/bar.png");
+        //divider_img = al_load_bitmap("assets/divider.png");
         main_font = al_load_ttf_font("assets/forced_square.ttf", 20, 0);
     }
 
@@ -83,8 +83,8 @@ namespace bwi_gridworld {
         al_draw_textf(main_font, al_map_rgb(255, 255, 255), 500, 800, 0, "Step #%d", g->getStepCount());
         al_draw_textf(main_font, al_map_rgb(255, 255, 255), 500, 850, 0, "%d events captured", g->getEventsFound());
 
-        al_draw_bitmap(bar_img, 250, 100, 0);
-        al_draw_bitmap(divider_img, 237, 100, 0);
+        //al_draw_bitmap(bar_img, 250, 100, 0);
+        //al_draw_bitmap(divider_img, 237, 100, 0);
 
         al_flip_display();
         al_rest(0.025);
@@ -93,8 +93,8 @@ namespace bwi_gridworld {
     Gui::~Gui() {
         al_destroy_bitmap(robot_img);
         al_destroy_bitmap(star_img);
-        al_destroy_bitmap(bar_img);
-        al_destroy_bitmap(divider_img);
+        //al_destroy_bitmap(bar_img);
+        //al_destroy_bitmap(divider_img);
         al_destroy_font(main_font);
         al_destroy_display(display);
     }
