@@ -1,5 +1,5 @@
-cmake_Minimum_required(VERSION 2.6)
-project(gridworld CXX)
+cmake_Minimum_required(VERSION 3.0)
+project(gridworld C CXX)
 
 INCLUDE_DIRECTORIES(include/
         /usr/local/allegro/include)
